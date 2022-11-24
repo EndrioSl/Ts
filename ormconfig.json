@@ -5,8 +5,8 @@
     "username": "root",
     "password": "",
     "database": "cdb", 
-    "synchronize": true, 
-    "logging": true,
+    "synchronize": false, 
+    "logging": false,
     "entities": [
        "src/entity/*.ts"
     ],
@@ -17,4 +17,4 @@
         "migrationsDir": "src/database/migrations", 
         "entitiesDir": "src/entities"
     }
- }
+ } 

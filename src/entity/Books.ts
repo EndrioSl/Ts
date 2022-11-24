@@ -1,10 +1,18 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from 'typeorm'; 
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne} from 'typeorm'; 
+import { Libraries } from './Libraries';
  
 @Entity() 
 export class Books { 
       
     @PrimaryGeneratedColumn()
-    id:number;  
+    id:number;    
+
+    @ManyToOne(
+        () => Libraries,
+        library => library.books
+        //{onDelete: 'CASCADE'}
+    )
+    library: Libraries
      
     @Column({length: 13}) 
     isbn: string;
