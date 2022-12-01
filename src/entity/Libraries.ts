@@ -21,7 +21,7 @@ export class Libraries {
     password: string;  
      
     @Column({length: 50}) 
-    nome_biblioteca: string;  
+    nome: string;  
      
     /*@Column({length: 8}) 
     cep: string; 

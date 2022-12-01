@@ -1,7 +1,8 @@
 import { getRepository } from "typeorm"; 
 import { Libraries } from "../entity/Libraries"; 
 import { Request, Response } from "express";  
- 
+import { hash } from "../common/bcrypt.helpers";
+
 export const getLibraries = async (request: Request, response: Response) => {
     const libraries = await getRepository(Libraries).find(); 
     return response.json(libraries);  
@@ -15,7 +16,11 @@ export const getLibrary = async (request: Request, response: Response) => {
 };  
  
 export const saveLibrary = async (request: Request, response: Response) => {
-    const library = await getRepository(Libraries).save(request.body); 
+    const library = request.body;   
+    library.password = await hash(library.password);  
+     
+    await getRepository(Libraries).save(library);
+
     return response.json(library);  
 };
 
@@ -40,6 +45,7 @@ export const deleteLibrary = async (request: Request, response: Response) => {
         return response.json({ message: 'Biblioteca removido!' })
     } 
      
-    return response.status(404).json({ message: 'Biblioteca não encontrado' });  
+    return response.status(404).json({ message: 'Biblioteca não encontrado' });   
+
 } 
  
