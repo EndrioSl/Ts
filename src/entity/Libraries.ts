@@ -17,7 +17,7 @@ export class Libraries {
     @Column({length: 50}) 
     email: string;  
      
-    @Column({length: 20}) 
+    @Column() 
     password: string;  
      
     @Column({length: 50}) 
