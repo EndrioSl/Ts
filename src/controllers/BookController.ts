@@ -1,5 +1,6 @@
 import { getRepository } from "typeorm"; 
-import { Books } from "../entity/Books"; 
+import { Books } from "../entity/Books";  
+import { Libraries } from "../entity/Libraries"; 
 import { Request, Response } from "express";  
  
 export const getBooks = async (request: Request, response: Response) => {
@@ -9,10 +10,22 @@ export const getBooks = async (request: Request, response: Response) => {
 }; 
   
 export const getBook = async (request: Request, response: Response) => {
-    const { id } = request.params; 
-    const book = await getRepository(Books).findOne(id); 
-    return response.json(book);
-};  
+   const { id } = request.params; 
+   const book = await getRepository(Books).findOne(id); 
+   return response.json(book);
+};   
+ 
+export const getBookLibrary = async (request: Request, response: Response) => { 
+    const { libraryId } = request.params; 
+    const libraryBooks = await getRepository(Books).find({
+        where: {
+            libraryId: '1'
+        },
+    })
+
+    return response.json(libraryBooks);
+  }
+ 
  
 export const saveBook = async (request: Request, response: Response) => {
     const book = await getRepository(Books).save(request.body); 
@@ -58,5 +71,5 @@ export const deleteBook = async (request: Request, response: Response) => {
     } 
      
     return response.status(404).json({ message: 'Livro não encontrado' });  
-} 
+}  
  
