@@ -10,7 +10,9 @@ routes.post('/books/', saveBook);
 routes.put('/books/:id', updateBook);
 routes.patch('/books/:id', statusBook);   
 routes.delete('/books/:id', deleteBook) 
- 
+  
+routes.get('/libraryBooks/:id', getBookLibrary);  
+
 routes.get('/libraries', getLibraries); 
 routes.get('/libraries/:id', getLibrary);  
 routes.post('/libraries/', saveLibrary); 
