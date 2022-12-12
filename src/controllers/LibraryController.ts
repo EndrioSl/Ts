@@ -53,7 +53,6 @@ export const deleteLibrary = async (request: Request, response: Response) => {
 export const getLibraryLogin = async (request: Request, response: Response) => {
     const {email, password} = request.body;
     const libraryLogin = await validateLogin(email, password);    
-    console.log(libraryLogin);
     if (!libraryLogin) 
         return response.status(404).json({ message: 'Biblioteca não encontrado' });
 

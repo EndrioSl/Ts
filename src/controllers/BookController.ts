@@ -12,23 +12,31 @@ export const getBooks = async (request: Request, response: Response) => {
 export const getBook = async (request: Request, response: Response) => {
    const { id } = request.params; 
    const book = await getRepository(Books).findOne(id); 
+   
    return response.json(book);
 };   
  
-export const getBookLibrary = async (request: Request, response: Response) => { 
+export const getBooksLibrary = async (request: Request, response: Response) => { 
     const { libraryId } = request.params; 
-    const libraryBooks = await getRepository(Books).find({
-        where: {
-            libraryId: '1'
-        },
-    })
+    const libraryBooks = await getRepository(Books).find({relations: ["library"]});
 
-    return response.json(libraryBooks);
+    const targetBook = libraryBooks.filter(book => book.library.id === Number(libraryId));
+    
+    return response.json(targetBook);
   }
  
- 
 export const saveBook = async (request: Request, response: Response) => {
-    const book = await getRepository(Books).save(request.body); 
+    const book: Books = request.body;  
+    const libraryId = request.query.libraryId;
+    
+    const library = await getRepository(Libraries).findOne({where: { id: libraryId }}); 
+
+    if(!library) return response.status(404).json({ message: 'Livraria não encontrada' });  
+
+    book.library = library;
+
+    await getRepository(Books).save(book); 
+
     return response.json(book);  
 };
 
