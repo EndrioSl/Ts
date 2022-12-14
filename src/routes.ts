@@ -19,7 +19,7 @@ routes.post('/libraries/', saveLibrary);
 routes.put('/libraries/:id', updateLibrary);
 routes.delete('/libraries/:id', deleteLibrary) 
  
-routes.get('/LibraryLogin', getLibraryLogin);
+routes.post('/LibraryLogin', getLibraryLogin);
 
 
 export default routes;
