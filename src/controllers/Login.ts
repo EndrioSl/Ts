@@ -18,7 +18,6 @@ export const validateLogin = async (email: string, password: string): Promise<Li
         console.log(isPasswordEquals);
         if (isPasswordEquals){ 
             libraryLogin = library;  
-            console.log("certo");
         }
     }       
         
