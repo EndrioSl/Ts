@@ -17,17 +17,17 @@ export const getBook = async (request: Request, response: Response) => {
 };   
  
 export const getBooksLibrary = async (request: Request, response: Response) => { 
-    const { libraryId } = request.params; 
-    const libraryBooks = await getRepository(Books).find({relations: ["library"]});
-
-    const targetBook = libraryBooks.filter(book => book.library.id === Number(libraryId));
+    const libraryId = request.params.libraryId; 
+    console.log(libraryId);
+    const libraryBooks = await getRepository(Libraries).findOne({where: {id: libraryId}, relations: ["books"]}); //undefined
     
-    return response.json(targetBook);
+    return response.json(libraryBooks.books
+        );
   }
  
 export const saveBook = async (request: Request, response: Response) => {
     const book: Books = request.body;  
-    const libraryId = request.query.libraryId;
+    const libraryId = request.params.libraryId;
     
     const library = await getRepository(Libraries).findOne({where: { id: libraryId }}); 
 

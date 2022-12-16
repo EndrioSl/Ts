@@ -6,12 +6,13 @@ const routes: Router = Router();
  
 routes.get('/books', getBooks); 
 routes.get('/books/:id', getBook);  
-routes.post('/books', saveBook); 
+routes.post('/books', saveBook);  
 routes.put('/books/:id', updateBook);
 routes.patch('/books/:id', statusBook);   
 routes.delete('/books/:id', deleteBook) 
-  
-routes.get('/libraryBooks/:libraryId', getBooksLibrary);  
+   
+routes.post('/library/:libraryId', saveBook); 
+routes.get('/library/:libraryId/books', getBooksLibrary);  
 
 routes.get('/libraries', getLibraries); 
 routes.get('/libraries/:id', getLibrary);  
