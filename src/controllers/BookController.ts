@@ -18,11 +18,11 @@ export const getBook = async (request: Request, response: Response) => {
  
 export const getBooksLibrary = async (request: Request, response: Response) => { 
     const libraryId = request.params.libraryId; 
-    console.log(libraryId);
-    const libraryBooks = await getRepository(Libraries).findOne({where: {id: libraryId}, relations: ["books"]}); //undefined
-    
-    return response.json(libraryBooks.books
-        );
+    const libraryBooks = await getRepository(Books).find({where: {library: { id: libraryId}}});
+     
+    if(!libraryBooks) return response.status(404).json({ message: 'Nenhum dado foi encontrado' });  
+
+    return response.json(libraryBooks);
   }
  
 export const saveBook = async (request: Request, response: Response) => {

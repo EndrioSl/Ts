@@ -11,7 +11,7 @@ routes.put('/books/:id', updateBook);
 routes.patch('/books/:id', statusBook);   
 routes.delete('/books/:id', deleteBook) 
    
-routes.post('/library/:libraryId', saveBook); 
+routes.post('/library/:libraryId/saveBook', saveBook); 
 routes.get('/library/:libraryId/books', getBooksLibrary);  
 
 routes.get('/libraries', getLibraries); 
