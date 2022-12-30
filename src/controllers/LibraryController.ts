@@ -5,9 +5,8 @@ import { hash } from "../common/bcrypt.helpers";
 import { validateLogin } from "./Login"; 
 
 export const getLibraries = async (request: Request, response: Response) => {
-    const libraries = await getRepository(Libraries).find(); 
-    return response.json(libraries);  
-
+    const libraries = await getRepository(Libraries).find();  
+    return response.json(libraries);   
 }; 
  
 export const getLibrary = async (request: Request, response: Response) => {
