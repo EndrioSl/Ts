@@ -2,7 +2,7 @@ import { getRepository, SimpleConsoleLogger } from "typeorm";
 import { Readers } from "../entity/Readers"; 
 import { Request, Response } from "express";  
 import { hash } from "../common/bcrypt.helpers"; 
-import { validateLogin } from "./Login"; 
+import { validateLogin } from "./LoginReader"; 
 
 export const getReaders = async (request: Request, response: Response) => {
     const readers = await getRepository(Readers).find();  

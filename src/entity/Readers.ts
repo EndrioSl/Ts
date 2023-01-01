@@ -1,10 +1,18 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany} from 'typeorm'; 
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToMany} from 'typeorm'; 
+import { Libraries } from './Libraries';
  
 @Entity() 
 export class Readers { 
      
     @PrimaryGeneratedColumn() 
     id: number; 
+ 
+    @ManyToMany(
+        () => Libraries,
+        libraries => libraries.readers,
+        //{ onDelete: "CASCADE"}
+      )
+      libraries: Libraries[]; 
 
     @Column({length: 50}) 
     email: string;  
@@ -13,7 +21,8 @@ export class Readers {
     password: string;  
      
     @Column({length: 50}) 
-    nome: string;  
+    nome: string;   
+     
      
     /*@Column({length: 11}) 
     cpf: string; 
@@ -25,5 +34,6 @@ export class Readers {
     mensalidade: number;   
 
     @Column({length: 50}) 
-    imagem: string; */
- }
+    imagem: string; */ 
+     
+ } 

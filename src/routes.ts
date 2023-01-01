@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
  
 import { getBooks, saveBook, getBook, updateBook, statusBook, deleteBook, getBooksLibrary } from './controllers/BookController';
 import { getLibraries, getLibrary, saveLibrary, updateLibrary, deleteLibrary, getLibraryLogin} from './controllers/LibraryController';
-import { deleteReader, getReader, getReaders, saveReader, updateReader } from './controllers/ReaderController';
+import { deleteReader, getReader, getReaders, saveReader, updateReader, getReaderLogin} from './controllers/ReaderController';
 const routes: Router = Router(); 
  
 routes.get('/books', getBooks); 
@@ -26,7 +26,7 @@ routes.get('/readers', getReaders);
 routes.get('/readers/:id', getReader);  
 routes.post('/readers/', saveReader); 
 routes.put('/readers/:id', updateReader);
-routes.delete('/readers/:id', deleteReader) 
-
+routes.delete('/readers/:id', deleteReader)  
+routes.post('/ReaderLogin', getReaderLogin); 
 
 export default routes;

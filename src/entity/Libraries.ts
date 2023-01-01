@@ -1,5 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany} from 'typeorm'; 
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToMany, JoinTable} from 'typeorm'; 
 import { Books } from './Books';
+import { Readers } from './Readers';
  
 @Entity() 
 export class Libraries { 
@@ -12,7 +13,15 @@ export class Libraries {
         books => books.library,
         //{onDelete: "CASCADE"}
     )
-    books: Books[];
+    books: Books[]; 
+     
+    @ManyToMany(
+        () => Readers,
+        reader => reader.libraries,
+        //{ onDelete: "CASCADE"}
+      )
+      @JoinTable({name:"library-joined-reader"})
+      readers: Readers[];
 
     @Column({length: 50}) 
     email: string;  
@@ -21,7 +30,7 @@ export class Libraries {
     password: string;  
      
     @Column({length: 50}) 
-    nome: string;  
+    nome: string;   
      
     /*@Column({length: 8}) 
     cep: string; 

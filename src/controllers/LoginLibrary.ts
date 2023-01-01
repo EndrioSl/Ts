@@ -1,5 +1,4 @@
 import { Libraries } from "../entity/Libraries"; 
-import { Request, Response } from "express";   
 import { comparePasswords,hash } from "../common/bcrypt.helpers";
 import { getRepository, SimpleConsoleLogger } from "typeorm";
         
