@@ -1,7 +1,8 @@
-import { getRepository } from "typeorm"; 
+import { getRepository, ILike } from "typeorm"; 
 import { Books } from "../entity/Books";  
 import { Libraries } from "../entity/Libraries"; 
 import { Request, Response } from "express";  
+import { title } from "process";
  
 export const getBooks = async (request: Request, response: Response) => {
     const books = await getRepository(Books).find(); 
@@ -18,13 +19,28 @@ export const getBook = async (request: Request, response: Response) => {
  
 export const getBooksLibrary = async (request: Request, response: Response) => { 
     const libraryId = request.params.libraryId; 
-    const libraryBooks = await getRepository(Books).find({where: {library: { id: libraryId}}});
+    const libraryBooks = await getRepository(Books).find({where: {library: { id: libraryId }}});
      
     if(!libraryBooks) return response.status(404).json({ message: 'Nenhum dado foi encontrado' });  
 
     return response.json(libraryBooks);
   }
- 
+  
+  export const getBooksLibrarySearch = async (request: Request, response: Response) => { 
+    const libraryId = request.params.libraryId;    
+    const name = request.query.name;
+    const libraryBooks = await getRepository(Books).find( 
+        {where: [
+            {library: { id: libraryId}, title: ILike(`%${name}%`),},
+            {library: { id: libraryId}, author: ILike(`%${name}%`),},   
+        ]})   
+    console.log(libraryBooks)
+    if(!libraryBooks) return response.status(404).json({ message: 'Nenhum dado foi encontrado' });  
+
+    return response.json(libraryBooks);
+  }
+  
+
 export const saveBook = async (request: Request, response: Response) => {
     const book: Books = request.body;  
     const libraryId = request.params.libraryId;

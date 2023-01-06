@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';   
  
-import { getBooks, saveBook, getBook, updateBook, statusBook, deleteBook, getBooksLibrary } from './controllers/BookController';
+import { getBooks, saveBook, getBook, updateBook, statusBook, deleteBook, getBooksLibrary, getBooksLibrarySearch } from './controllers/BookController';
 import { getLibraries, getLibrary, saveLibrary, updateLibrary, deleteLibrary, getLibraryLogin} from './controllers/LibraryController';
 import { deleteReader, getReader, getReaders, saveReader, updateReader, getReaderLogin} from './controllers/ReaderController';
 const routes: Router = Router(); 
@@ -13,7 +13,8 @@ routes.patch('/books/:id', statusBook);
 routes.delete('/books/:id', deleteBook) 
    
 routes.post('/library/:libraryId/saveBook', saveBook); 
-routes.get('/library/:libraryId/books', getBooksLibrary);  
+routes.get('/library/:libraryId/books', getBooksLibrary);   
+routes.get('/library/:libraryId/books/search/', getBooksLibrarySearch); 
 
 routes.get('/libraries', getLibraries); 
 routes.get('/libraries/:id', getLibrary);  

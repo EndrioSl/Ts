@@ -37,7 +37,13 @@ export class Books {
 
     @Column()
     description: string; 
-     
+      
+    @Column()
+    name_image: string;
+  
+    @Column()
+    url: string;
+ 
     @Column({ 
         default: true
     }) 
