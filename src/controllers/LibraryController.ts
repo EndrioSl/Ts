@@ -2,7 +2,14 @@ import { getRepository, SimpleConsoleLogger } from "typeorm";
 import { Libraries } from "../entity/Libraries"; 
 import { Request, Response } from "express";  
 import { hash } from "../common/bcrypt.helpers"; 
-import { validateLogin } from "./LoginLibrary"; 
+import { validateLogin } from "./LoginLibrary";  
+import { Readers } from "../entity/Readers";   
+import { findByIdReader } from "./ReaderController";
+ 
+  
+const RELATIONS = { relations: ['readers'] }; 
+const NO_RELATIONS = {};  
+  
 
 export const getLibraries = async (request: Request, response: Response) => {
     const libraries = await getRepository(Libraries).find();  
@@ -22,7 +29,47 @@ export const saveLibrary = async (request: Request, response: Response) => {
     await getRepository(Libraries).save(library);
 
     return response.json(library);  
-};
+};  
+ 
+export const findByIdLibrary = async (id: string, relations=true): Promise<Libraries> => {
+    const relation = relations ? RELATIONS : NO_RELATIONS;
+    const library = await getRepository(Libraries).findOne({
+        where: { id },
+        ...relation,
+    }); 
+    return library;  
+}  
+
+export const addLibraryReader = async (request: Request, response: Response) => { 
+    
+    const id = request.params.id;  
+    const libraryId = request.params.libraryId;  
+ 
+    const library = await findByIdLibrary(libraryId);  
+    const newReaderLibrary = await findByIdReader(id);     +
+
+    library.readers.push(newReaderLibrary);
+ 
+    await getRepository(Libraries).save(library); 
+         
+    return response.status(201).json({ message: 'Leitor vinculado a biblioteca corretamente' });  
+};  
+ 
+export const removeLibraryReader = async (request: Request, response: Response) => {  
+     
+    const id = request.params.id;  
+    const libraryId = request.params.libraryId;  
+ 
+    const library = await findByIdLibrary(libraryId);  
+    const removeReaderLibrary = await findByIdReader(id);     
+     
+    library.readers = library.readers.filter((readers) => {
+        return library.readers[0].id !== removeReaderLibrary.id; 
+    })
+ 
+    await getRepository(Libraries).save(library);    
+
+}; 
 
 export const updateLibrary = async (request: Request, response: Response) => {
     const { id } = request.params; 
@@ -47,7 +94,7 @@ export const deleteLibrary = async (request: Request, response: Response) => {
      
     return response.status(404).json({ message: 'Biblioteca não encontrado' }); 
 
-}; 
+};  
  
 export const getLibraryLogin = async (request: Request, response: Response) => {
     const {email, password} = request.body;
