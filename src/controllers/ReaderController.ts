@@ -1,9 +1,10 @@
-import { getRepository, ILike, SimpleConsoleLogger } from "typeorm"; 
+import { createQueryBuilder, getRepository, ILike, SimpleConsoleLogger } from "typeorm"; 
 import { Readers } from "../entity/Readers"; 
 import { Request, Response } from "express";  
 import { hash } from "../common/bcrypt.helpers";  
 import { validateLogin } from "./LoginReader";  
 import { findByIdLibrary } from "./LibraryController";
+import { Libraries } from "../entity/Libraries";
  
 const RELATIONS = { relations: ['libraries'] }; 
 const NO_RELATIONS = {};   
@@ -35,34 +36,43 @@ export const getReadersLibrary = async (request: Request, response: Response) =>
         ...relation,
     }); 
     return reader;  
-}  
+}    
+ 
+export const findByNameReader = async (name: string, relations=true): Promise<Readers> => {
+    const relation = relations ? RELATIONS : NO_RELATIONS;
+    const reader = await getRepository(Readers).findOne({
+        where: { nome: ILike(`%${name}%`)},
+        ...relation,
+    }); 
+    return reader;  
+}   
+  
 export const getReaderSearch = async (request: Request, response: Response) => { 
-    const name = request.query.name;
+    const name = request.query.name;  
     const readerSearch = await getRepository(Readers).find( 
         {where: [
-            {nome: ILike(`%${name}%`),}
-        ]})     
-
+            {nome: ILike(`%${name}%`),} 
+            
+        ]})      
+         
     if(!readerSearch) return response.status(404).json({ message: 'Nenhum dado foi encontrado' });  
+ 
+    console.log(readerSearch) 
 
     return response.json(readerSearch);
   }
     
-export const getReaderLibrarySearch = async (request: Request, response: Response) => { 
-    const libraryId = request.params.libraryId;    
-    const name = request.query.name; 
-    const libraryReader = await findByIdLibrary(libraryId) 
+  export const getReaderLibrarySearch = async (request: Request, response: Response) => {  
+    const libraryId = request.params.libraryId;   
+    const numberLibraryId = Number(libraryId);
+    const nome = request.query.name;   
+    const stringName = String(nome);
 
-    const libraryReadersSearch = ''//await libraryReader();  
-    
-    console.log(libraryReadersSearch) 
-
-    if(!libraryReadersSearch) return response.status(404).json({ message: 'Nenhum dado foi encontrado' });  
-
-    return response.json(libraryReadersSearch); 
-
-  }
-   
+    const library = await findByIdLibrary(libraryId);   
+ 
+    const readerLibrarySearch = library.readers.filter(readers => (readers.nome.toUpperCase().includes(stringName.toUpperCase())))
+    return response.json(readerLibrarySearch);
+  } 
 
 export const saveReader = async (request: Request, response: Response) => {
     const reader = request.body;   

@@ -34,7 +34,7 @@ export const saveLibrary = async (request: Request, response: Response) => {
 export const findByIdLibrary = async (id: string, relations=true): Promise<Libraries> => {
     const relation = relations ? RELATIONS : NO_RELATIONS;
     const library = await getRepository(Libraries).findOne({
-        where: { id },
+        where:{ id },
         ...relation,
     }); 
     return library;  
