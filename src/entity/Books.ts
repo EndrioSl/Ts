@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToOne, JoinColumn} from 'typeorm'; 
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm'; 
 import { Libraries } from './Libraries';
 import { Loans } from './Loans';
 
@@ -13,12 +13,8 @@ export class Books {
         library => library.books
         //{onDelete: 'CASCADE'}
     )
-    library: Libraries 
-     
-    @OneToOne(() => Loans)
-    @JoinColumn()
-    loans: Loans
-     
+    library: Libraries;
+
     @Column({length: 13}) 
     isbn: string;
       

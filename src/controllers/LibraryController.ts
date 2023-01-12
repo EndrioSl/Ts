@@ -1,4 +1,4 @@
-import { getRepository, SimpleConsoleLogger } from "typeorm"; 
+import { getRepository, ILike, SimpleConsoleLogger } from "typeorm"; 
 import { Libraries } from "../entity/Libraries"; 
 import { Request, Response } from "express";  
 import { hash } from "../common/bcrypt.helpers"; 
@@ -34,12 +34,12 @@ export const saveLibrary = async (request: Request, response: Response) => {
 export const findByIdLibrary = async (id: string, relations=true): Promise<Libraries> => {
     const relation = relations ? RELATIONS : NO_RELATIONS;
     const library = await getRepository(Libraries).findOne({
-        where:{ id },
+
         ...relation,
     }); 
     return library;  
 }  
-
+  
 export const addLibraryReader = async (request: Request, response: Response) => { 
     
     const id = request.params.id;  

@@ -4,7 +4,6 @@ import { Request, Response } from "express";
 import { hash } from "../common/bcrypt.helpers";  
 import { validateLogin } from "./LoginReader";  
 import { findByIdLibrary } from "./LibraryController";
-import { Libraries } from "../entity/Libraries";
  
 const RELATIONS = { relations: ['libraries'] }; 
 const NO_RELATIONS = {};   
@@ -64,7 +63,6 @@ export const getReaderSearch = async (request: Request, response: Response) => {
     
   export const getReaderLibrarySearch = async (request: Request, response: Response) => {  
     const libraryId = request.params.libraryId;   
-    const numberLibraryId = Number(libraryId);
     const nome = request.query.name;   
     const stringName = String(nome);
 

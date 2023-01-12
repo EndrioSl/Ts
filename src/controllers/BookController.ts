@@ -2,8 +2,19 @@ import { getRepository, ILike } from "typeorm";
 import { Books } from "../entity/Books";  
 import { Libraries } from "../entity/Libraries"; 
 import { Request, Response } from "express";  
-import { title } from "process";
- 
+   
+const RELATIONS = { relations: ['loans'] }; 
+const NO_RELATIONS = {};   
+
+export const findByIdBook = async (id: string, relations=true): Promise<Books> => {
+    const relation = relations ? RELATIONS : NO_RELATIONS;
+    const book = await getRepository(Books).findOne({
+        where:{ id },
+        ...relation,
+    }); 
+    return book;  
+}   
+
 export const getBooks = async (request: Request, response: Response) => {
     const books = await getRepository(Books).find(); 
     return response.json(books);  
@@ -39,7 +50,6 @@ export const getBooksLibrary = async (request: Request, response: Response) => {
 
     return response.json(libraryBooks);
   }
-  
 
 export const saveBook = async (request: Request, response: Response) => {
     const book: Books = request.body;  

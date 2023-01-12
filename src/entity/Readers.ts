@@ -1,5 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToMany} from 'typeorm'; 
+import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany } from 'typeorm'; 
 import { Libraries } from './Libraries';
+import { Loans } from './Loans';
  
 @Entity() 
 export class Readers { 
@@ -12,8 +13,15 @@ export class Readers {
         libraries => libraries.readers,
         //{ onDelete: "CASCADE"}
       )
-      libraries: Libraries[]; 
-
+      libraries: Libraries[];     
+     
+    @OneToMany(
+        () => Loans,
+        loan => loan.reader,
+        //{onDelete: "CASCADE"}
+    )
+    loan: Loans[];   
+       
     @Column({length: 50}) 
     email: string;  
      

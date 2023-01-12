@@ -1,4 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, JoinColumn, OneToOne, ManyToOne} from 'typeorm'; 
+import { Books } from './Books';
 import { Libraries } from './Libraries';
 import { Readers } from './Readers';
  
@@ -8,9 +9,23 @@ export class Loans {
     @PrimaryGeneratedColumn() 
     id: number;   
      
-    @OneToOne(() => Readers)
+    @OneToOne(() => Books)
     @JoinColumn()
-    readers: Readers 
+    book: Books  
+     
+    @ManyToOne(
+        () => Readers,
+        readers => readers.loan
+        //{onDelete: 'CASCADE'}
+    )
+    reader: Readers   
+     
+    @ManyToOne(
+        () => Libraries,
+        library => library.loan
+        //{onDelete: 'CASCADE'}
+    )
+    library: Libraries  
      
     @Column({ 
         default: true

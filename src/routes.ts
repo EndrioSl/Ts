@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
  
 import { getBooks, saveBook, getBook, updateBook, statusBook, deleteBook, getBooksLibrary, getBooksLibrarySearch } from './controllers/BookController';
 import { getLibraries, getLibrary, saveLibrary, updateLibrary, deleteLibrary, getLibraryLogin, addLibraryReader, removeLibraryReader} from './controllers/LibraryController';
+import { deleteLoan, getLoan, getLoans, saveLoan, updateLoan } from './controllers/LoanController';
 import { deleteReader, getReader, getAllReaders, saveReader, updateReader, getReaderLogin, getReaderSearch, getReadersLibrary, getReaderLibrarySearch } from './controllers/ReaderController';
 const routes: Router = Router(); 
  
@@ -17,13 +18,11 @@ routes.get('/library/:libraryId/books', getBooksLibrary);
 routes.get('/library/:libraryId/books/search/', getBooksLibrarySearch);  
 routes.post('/library/:libraryId/addReader/:id', addLibraryReader) 
 routes.delete('/library/:libraryId/addReader/:id', removeLibraryReader)
-routes.get('/library/:libraryId/readers', getReadersLibrary); 
-
+routes.get('/library/:libraryId/readers', getReadersLibrary);    
+routes.get('/library/:libradyId/loans', getLoans); 
 
 routes.get('/library/:libraryId/allreaders/search/', getReaderSearch);   
 routes.get('/library/:libraryId/readers/search/', getReaderLibrarySearch);  
-
-
 routes.get('/libraries', getLibraries); 
 routes.get('/libraries/:id', getLibrary);  
 routes.post('/libraries/', saveLibrary); 
@@ -36,6 +35,12 @@ routes.get('/readers/:id', getReader);
 routes.post('/readers/', saveReader); 
 routes.put('/readers/:id', updateReader);
 routes.delete('/readers/:id', deleteReader)  
-routes.post('/ReaderLogin', getReaderLogin);   
+routes.post('/ReaderLogin', getReaderLogin);    
+ 
+routes.get('/loans', getLoans);  
+routes.get('/loans/:id', getLoan);  
+routes.post('/library/:libradyId/loans/book/:id/reader/:readerId', saveLoan); 
+routes.put('/loans/:id', updateLoan);
+routes.delete('/loans/:id', deleteLoan)  
 
 export default routes;
